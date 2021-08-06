@@ -1,0 +1,22 @@
+@import 'src/variables';
+.top-toolbar__logo-avatar {
+  height: 3.5rem;
+  width: auto;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+}
+.top-toolbar__logo-por-fesr {
+  height: 6.5rem;
+  width: auto;
+  background-color: white;
+}
+
+@include media-breakpoint-down(sm) {
+  .top-toolbar__logo-por-fesr {
+    display: none;
+  }
+}
+.navbar {
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}

@@ -1,0 +1,22 @@
+<div class="card flex-grow-1">
+  <div class="card-body">
+    <a (click)="onSelectClick()" class="search-card__place-link">
+      <div class="d-flex">
+        <div class="flex-grow-1">
+          <div class="card-title flex-grow-1">
+            <h5>
+              <strong>{{ name }}</strong>
+            </h5>
+          </div>
+          <div class="card-subtitle flex-grow-1">
+            <div>{{ street }}</div>
+            <div>{{ city }}</div>
+          </div>
+        </div>
+        <div class="flex-shrink-1 search-card__select-button">
+          <fa-icon class="text-secondary" icon="angle-right"></fa-icon>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="container mt-3 bg-white py-2 sub-toolbar__container">
+  <div class="row">
+    <div class="col-lg-2 col-2">
+      <a href="https://www.avatarlab.it/" target="_blank" data-toggle="tooltip" data-placement="top" title="AVATAR"
+        ><img src="/assets/images/Avatar_V01.png" height="60px" />
+      </a>
+    </div>
+    <div class="col-lg-10 col-11">
+      <div class="row">
+        <div *ngFor="let logo of logos" class="col-1">
+          <a [href]="logo.site" target="_blank" data-toggle="tooltip" data-placement="top" [title]="logo.name"
+            ><img [src]="logo.logo" class="sub-toolbar__image" style="max-height: 50px" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

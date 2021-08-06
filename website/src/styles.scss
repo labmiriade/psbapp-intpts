@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+@import './customtheme.scss';
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+@import '~maplibre-gl/dist/maplibre-gl';
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #cbcbcb;
+}

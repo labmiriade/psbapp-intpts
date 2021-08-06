@@ -1,0 +1,16 @@
+@import 'src/variables';
+
+.sub-toolbar__image {
+  max-height: 50px;
+  cursor: pointer;
+}
+
+.sub-toolbar__container {
+  border-radius: 0.25rem;
+}
+
+@include media-breakpoint-down(md) {
+  .sub-toolbar__image {
+    max-height: 25px !important;
+  }
+}

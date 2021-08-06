@@ -1,0 +1,26 @@
+@import 'src/variables';
+.search__card {
+  cursor: pointer;
+}
+
+.search__element {
+  margin-top: 1rem;
+}
+
+@include media-breakpoint-down(sm) {
+  .search__list-scroll {
+    height: 100% !important;
+  }
+}
+
+.search__map {
+  height: 120vh;
+}
+
+.search__div-container {
+  min-height: 50rem;
+}
+
+.search__list-scroll {
+  height: 120vh;
+}

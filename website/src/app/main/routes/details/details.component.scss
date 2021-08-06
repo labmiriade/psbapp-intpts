@@ -1,0 +1,52 @@
+@import 'src/variables';
+@include media-breakpoint-up(lg) {
+  .details__map {
+    height: 14rem;
+  }
+  .details__col-details {
+    width: 60%;
+  }
+  .details__col-image {
+    width: 40%;
+    padding-right: 2rem;
+  }
+}
+@include media-breakpoint-down(md) {
+  .details__col-details {
+    width: 100%;
+  }
+  .details__col-image,
+  .details__image {
+    display: none;
+  }
+  .details__map {
+    height: 10rem;
+  }
+}
+.details__col-details {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.details__name {
+  font-size: 1.9rem;
+}
+.details__street {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+.details__description {
+  font-size: 1rem;
+  width: 15rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.details__image {
+  height: auto;
+  width: 100%;
+}
+.details__info {
+  font-size: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}

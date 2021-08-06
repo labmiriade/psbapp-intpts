@@ -1,0 +1,44 @@
+@import 'src/variables';
+.info__background {
+  background-color: #cbcbcb;
+  margin: auto;
+}
+
+.info__row {
+  background-color: white;
+  margin-top: 0.625rem;
+}
+
+.info__row__body {
+  padding-top: 1.5rem;
+}
+
+.info__title {
+  font-size: 3.6rem;
+  font-weight: bold;
+}
+.info__subtitle {
+  font-size: 3.5rem;
+}
+.info__strong-text {
+  font-weight: bold;
+  font-size: 1.3rem;
+  line-height: 1.45rem;
+  padding-bottom: 0.5rem;
+}
+.info__title__subtitle {
+  line-height: 2.5rem;
+  padding-top: 1rem;
+  padding-bottom: 4rem;
+}
+.info__text {
+  font-size: 1.3rem;
+  line-height: 1.45rem;
+  padding-bottom: 1.5rem;
+}
+
+.info__row-body-text {
+  width: 95%;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}

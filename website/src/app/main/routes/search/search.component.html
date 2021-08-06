@@ -1,0 +1,34 @@
+<div class="search__element">
+  <div class="row" *ngIf="loading$ | async">
+    <div class="col d-flex justify-content-center">
+      <app-loading></app-loading>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row d-flex py-3 search__div-container" *ngIf="!(loading$ | async)">
+      <div class="col-12 col-md-4 overflow-auto d-inline-block search__list-scroll">
+        <ng-container *ngIf="(places$ | async)?.length; else noResultsFound">
+          <div *ngFor="let place of places$ | async">
+            <app-search-card
+              (placeClick)="onSelectClick($event)"
+              [place]="place"
+              class="search__card"
+            ></app-search-card>
+          </div>
+        </ng-container>
+      </div>
+      <div class="col-md-8 d-none d-md-block search__map" *ngIf="(places$ | async)?.length">
+        <app-aws-map-viewer [pins]="mapPins | async" [zoomToPins]="true"></app-aws-map-viewer>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noResultsFound>
+  <div class="card">
+    <div class="card-body text-center">
+      <h5 class="card-title">😟<br />Nessun elemento trovato.</h5>
+      <span class="card-text">Prova con un'altra chiave di ricerca.</span>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,150 @@
+openapi: '3.0.3'
+info:
+  title: 'PSBAPP IntPts API'
+  version: '2021-05-27'
+
+paths:
+  /p/{placeId}:
+    parameters:
+      - in: path
+        schema:
+          type: string
+        name: placeId
+        required: true
+    get:
+      tags: [End User]
+      description: Ottieni informazioni su un luogo
+      responses:
+        200:
+          description: Informazioni sul luogo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaceInfo'
+        444:
+          description: Luogo non esistente
+  /categories:
+    get:
+      tags: [End User]
+      description: Ottieni la lista di categorie
+      responses:
+        200:
+          description: Lista di categorie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  categories:
+                    type: array
+                    items:
+                      type: string
+  ##### SEARCH API
+  /search/p:
+    get:
+      tags: [End User, Search]
+      parameters:
+        - name: q
+          in: query
+          description: >-
+            The text for full text search on all fields
+          required: false
+          schema:
+            type: string
+        - name: near
+          in: query
+          description: >-
+            Latitude and longitude for the search
+          required: false
+          schema:
+            type: string
+            example: 45.1234,11.3749
+            pattern: '\d{1,2}(.\d*)\,\d{1,2}(.\d*)'
+        - name: cat
+          in: query
+          description: >-
+            Category filter for the search
+          required: false
+          schema:
+            type: string
+      summary: Search places
+      description: >-
+        At least one of the 'q' or the 'near' parameters is required
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaceList'
+
+components:
+  schemas:
+    PlaceList:
+      type: object
+      properties:
+        places:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlaceInfo'
+    PlaceInfo:
+      type: object
+      properties:
+        placeId:
+          type: string
+          example: clzd-th
+        istatCode:
+          type: string
+          example: '24100'
+        category1:
+          type: string
+          example: Culturale
+        category2:
+          type: string
+          example: Territorio
+        name:
+          type: string
+          example: A passeggio sulle nuvole
+        streetName:
+          type: string
+          example: Via Castelletto
+        streetNumber:
+          type: string
+          example: '22'
+        city:
+          type: string
+          example: Thiene
+        province:
+          type: string
+          example: VI
+        CAPCode:
+          type: string
+          example: '36016'
+        activity:
+          type: string
+          example: Escursione
+        description:
+          type: string
+          example: Associazione che promuove la conoscenza delle montagne del territorio
+        website:
+          type: string
+          format: uri
+          example: 'https://avatarlab.it/119-2/'
+        imageLink:
+          type: string
+          format: uri
+          example: https://www.visitschio.it/system/uploads/proposal/index_image/121/Percorsi_Agritour_BLU.jpg
+        lat:
+          type: string
+          example: 45.50593824
+        lon:
+          type: string
+          example: 12.293843284
+        searchable:
+          type: boolean
+
+tags:
+  - name: End User
+    description: Chiamate utilizzate dall'end user, non sono autenticate.
+  - name: Search
+    description: Chiamate per cercare i luoghi

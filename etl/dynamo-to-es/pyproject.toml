@@ -1,0 +1,23 @@
+[tools.black]
+line-length = 160
+
+[tool.poetry]
+name = "dynamo-to-es"
+version = "0.1.0"
+description = "Python app to keep ES and DynamoDB aligned"
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "3.8.*"
+requests = "^2.25.1"
+requests-aws4auth = "^1.1.1"
+
+[tool.poetry.dev-dependencies]
+boto3 = "^1.17.92"
+black = "^21.6b0"
+flake8 = "^3.9.2"
+pytest = "^6.2.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

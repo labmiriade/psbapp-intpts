@@ -1,0 +1,6 @@
+<div class="container main__container p-2 main__search mt-3">
+  <app-search-bar [q]="q" (searchClick)="onSearchClick($event)" class="p-4"></app-search-bar>
+</div>
+<div class="main__container mt-3 mb-3">
+  <router-outlet></router-outlet>
+</div>

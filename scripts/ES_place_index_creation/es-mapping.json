@@ -1,0 +1,83 @@
+{
+  "mappings": {
+    "properties": {
+      "placeId": {
+        "type": "text"
+      },
+      "istatCode": {
+        "type": "keyword"
+      },
+      "category1": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "category2": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "description": {
+        "type": "text"
+      },
+      "name": {
+        "type": "text"
+      },
+      "streetName": {
+        "type": "text"
+      },
+      "streetNumber": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "city": {
+        "type": "text"
+      },
+      "province": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "CAPCode": {
+        "type": "keyword"
+      },
+      "activity": {
+        "type": "text"
+      },
+      "website": {
+        "type": "text"
+      },
+      "imagelink": {
+        "type": "keyword"
+      },
+      "lat": {
+        "type": "text"
+      },
+      "lon": {
+        "type": "text"
+      },
+      "location": {
+        "type": "geo_point"
+      },
+      "address": {
+        "type": "text"
+      },
+      "searchable": {
+        "type": "boolean"
+      }
+    }
+  }
+}

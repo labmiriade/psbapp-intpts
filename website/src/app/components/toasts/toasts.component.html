@@ -1,0 +1,10 @@
+<ngb-toast
+  *ngFor="let toast of toasts"
+  [autohide]="true"
+  [delay]="5000"
+  (hide)="remove(toast)"
+  class="{{ getColorClass(toast.type) }}"
+>
+  <strong>{{ toast.header }}</strong>
+  <p class="p-0 m-0 border-0">{{ toast.body }}</p>
+</ngb-toast>

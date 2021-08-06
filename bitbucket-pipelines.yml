@@ -1,0 +1,102 @@
+definitions:
+  services:
+    docker:
+      memory: 3072 # 3GB
+
+  caches:
+    website-cache: website/node_modules
+    api-search-cache: api/search/node_modules
+    etl-dynamotoes-cache: ~/.cache/pip
+
+  steps:
+    - step: &apiSearchBuild
+        name: Build the search lambda
+        image: node:14-alpine
+        caches:
+          - api-search-cache
+        script:
+          - cd api/search
+          - npm install
+          - npm run lint
+          - npm run build
+
+    - step: &etlDynamoToEsBuild
+        name: Build the lambda to import to Elasticsearch
+        image: python:3.8-slim
+        caches:
+          - etl-dynamotoes-cache
+        script:
+          - cd etl/dynamo-to-es
+          - pip install poetry
+          - poetry install
+          - poetry run black --check .
+          - poetry run flake8
+          - poetry run pytest
+
+    - step: &websiteBuildTest
+        name: Build the website for the TEST environment
+        image: node:14-alpine
+        caches:
+          - website-cache
+        script:
+          - cd website
+          - npm install
+          - npm run lint
+          - npm run testBuild
+
+    - parallel: &buildTest
+        - step:
+            <<: *websiteBuildTest
+            condition:
+              changesets:
+                includePaths:
+                  - website/**
+        - step:
+            <<: *apiSearchBuild
+            condition:
+              changesets:
+                includePaths:
+                  - api/search/**
+        - step:
+            <<: *etlDynamoToEsBuild
+            condition:
+              changesets:
+                includePaths:
+                  - etl/dynamo-to-es/**
+
+    - step: &deployTest
+        name: CDK Deploy
+        image: node:14-alpine
+        oidc: true
+        services:
+          - docker
+        caches:
+          - docker
+        script:
+          - |
+            # retrieve credential from OIDC
+            export AWS_WEB_IDENTITY_TOKEN_FILE=$(pwd)/web-identity-token
+            echo $BITBUCKET_STEP_OIDC_TOKEN > $(pwd)/web-identity-token
+          - cd infrastructure
+          - npm install
+          - npm run build
+          - npm run deploy -- PSBAPPIntPtsDev
+        after-script:
+          - |
+            env
+            if [ ${BITBUCKET_BRANCH} != "main" ] || [ ${BITBUCKET_EXIT_CODE} -eq 0 ]
+            then
+              echo "Everything went fine or the branch is not the main branch"
+              return 0
+            fi
+
+pipelines:
+  pull-requests:
+    "**":
+      - parallel: *buildTest
+
+  branches:
+    main:
+      - step:
+          <<: *deployTest
+          deployment: test

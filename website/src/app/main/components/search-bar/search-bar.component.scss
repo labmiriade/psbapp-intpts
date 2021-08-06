@@ -1,0 +1,48 @@
+@import 'src/variables';
+
+.search-bar__button {
+  min-width: 7.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+@include media-breakpoint-up(md) {
+  .search-bar__buttons-inline {
+    display: none;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .search-bar__buttons-inline {
+    display: flex;
+  }
+}
+
+.search-bar__button-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.search__category {
+  cursor: pointer;
+}
+
+.horizontal-scrollable > .row {
+  overflow-x: scroll;
+  white-space: nowrap;
+
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.horizontal-scrollable > .row::-webkit-scrollbar {
+  display: none;
+}
+
+.horizontal-scrollable > .row > .search__category {
+  display: inline-block;
+  float: none;
+}

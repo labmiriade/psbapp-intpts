@@ -1,0 +1,5 @@
+<div id="map" *ngIf="supported; else unsupported"></div>
+
+<ng-template #unsupported>
+  <p>Mappa non supportata.</p>
+</ng-template>

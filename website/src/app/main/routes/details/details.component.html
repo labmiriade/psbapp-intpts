@@ -1,0 +1,77 @@
+<div class="d-flex justify-content-center py-2 mb-3">
+  <div class="col-12">
+    <div class="d-flex justify-content-center">
+      <button type="button" class="btn btn-dark btn-sm mt-2" (click)="onSearchClick()">Torna alla ricerca</button>
+    </div>
+    <div class="details__map mt-2">
+      <app-aws-map-viewer [pins]="mapPin | async" [zoomToPins]="true" [zoom]="12"></app-aws-map-viewer>
+    </div>
+    <div *ngIf="(place$ | async)?.imageLink" class="row">
+      <div class="details__col-details text-center">
+        <div class="details__name mt-4 text-center">
+          {{ (place$ | async)?.name }}
+        </div>
+        <div *ngIf="(place$ | async)?.streetName" class="details__street text-center">
+          {{ street | async }}
+        </div>
+
+        <div *ngIf="(place$ | async)?.city" class="details__street text-center">
+          {{ city | async }}
+        </div>
+        <div class="details__description mt-3">
+          <strong>Descrizione</strong> <br />{{ (place$ | async)?.description }}
+        </div>
+        <div class="mt-2 mb-4 text-center details__info">
+          <strong>Informazioni</strong>
+          <div *ngIf="(place$ | async)?.category1">Macrocategoria: {{ (place$ | async)?.category1 }}</div>
+          <div *ngIf="(place$ | async)?.category2">Categoria: {{ (place$ | async)?.category2 }}</div>
+          <div *ngIf="(place$ | async)?.activity">Attività: {{ (place$ | async)?.activity }}</div>
+          <div>
+            <a
+              *ngIf="(place$ | async)?.website"
+              href="{{ (place$ | async)?.website }}"
+              role="button"
+              target="_blank"
+              class="btn btn-primary mx-2 mt-2"
+              ><fa-icon icon="globe"></fa-icon> Vai al sito</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="details__col-image d-flex justify-content-center align-items-center">
+        <img src="{{ (place$ | async)?.imageLink }}" alt="" class="details__image" />
+      </div>
+    </div>
+    <div *ngIf="!(place$ | async)?.imageLink" class="mt-3">
+      <div class="details__name mt-4 text-center">
+        {{ (place$ | async)?.name }}
+      </div>
+      <div class="details__street text-center">
+        {{ (place$ | async)?.streetName }}, {{ (place$ | async)?.streetNumber }}
+      </div>
+      <div class="details__street text-center">
+        {{ (place$ | async)?.city }}, {{ (place$ | async)?.province }}, {{ (place$ | async)?.CAPCode }}
+      </div>
+      <div *ngIf="(place$ | async)?.description" class="details__description mt-3 text-center">
+        <strong>Descrizione</strong>
+        <br />{{ (place$ | async)?.description }}
+      </div>
+      <div class="mt-2 mb-4 text-center details__info">
+        <strong>Informazioni</strong>
+        <div *ngIf="(place$ | async)?.category1">Macrocategoria: {{ (place$ | async)?.category1 }}</div>
+        <div *ngIf="(place$ | async)?.category2">Categoria: {{ (place$ | async)?.category2 }}</div>
+        <div *ngIf="(place$ | async)?.activity">Attività: {{ (place$ | async)?.activity }}</div>
+        <div>
+          <a
+            *ngIf="siteCheck() | async"
+            href="{{ (place$ | async)?.website }}"
+            role="button"
+            target="_blank"
+            class="btn btn-primary mx-2 mt-2"
+            ><fa-icon icon="globe"></fa-icon> Vai al sito</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

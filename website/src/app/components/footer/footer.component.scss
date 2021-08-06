@@ -1,0 +1,22 @@
+@import 'src/variables';
+
+.footer__por-fesr {
+  height: auto;
+  max-width: 18rem;
+}
+.navbar {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+
+.footer__link {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+@include media-breakpoint-down(md) {
+  .footer__logo {
+    margin-bottom: 2rem;
+  }
+}

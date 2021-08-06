@@ -1,0 +1,6 @@
+click
+requests-aws4auth
+requests
+boto3
+black
+
