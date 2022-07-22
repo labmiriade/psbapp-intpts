@@ -26,6 +26,8 @@
     "@angular/platform-browser": "^12.0.3",
     "@angular/platform-browser-dynamic": "^12.0.3",
     "@angular/router": "^12.0.3",
+    "@aws-amplify/analytics": "^4.0.3",
+    "@aws-amplify/auth": "^4.0.3",
     "@aws-amplify/core": "^4.0.3",
     "@aws-sdk/client-cognito-identity": "^3.17.0",
     "@fortawesome/angular-fontawesome": "^0.9.0",

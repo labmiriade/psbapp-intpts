@@ -4,380 +4,373 @@
  */
 
 export const OpenAPI = {
-  "openapi": "3.0.3",
-  "info": {
-    "title": "PSBAPP IntPts API",
-    "version": "2021-05-27"
+  openapi: '3.0.3',
+  info: {
+    title: 'PSBAPP IntPts API',
+    version: '2021-05-27',
   },
-  "paths": {
-    "/p/{placeId}": {
-      "parameters": [
+  paths: {
+    '/p/{placeId}': {
+      parameters: [
         {
-          "in": "path",
-          "schema": {
-            "type": "string"
+          in: 'path',
+          schema: {
+            type: 'string',
           },
-          "name": "placeId",
-          "required": true
-        }
+          name: 'placeId',
+          required: true,
+        },
       ],
-      "get": {
-        "tags": [
-          "End User"
-        ],
-        "description": "Ottieni informazioni su un luogo",
-        "responses": {
-          "200": {
-            "description": "Informazioni sul luogo",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "placeId": {
-                      "type": "string"
+      get: {
+        tags: ['End User'],
+        description: 'Ottieni informazioni su un luogo',
+        responses: {
+          '200': {
+            description: 'Informazioni sul luogo',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    placeId: {
+                      type: 'string',
                     },
-                    "istatCode": {
-                      "type": "string"
+                    istatCode: {
+                      type: 'string',
                     },
-                    "category1": {
-                      "type": "string"
+                    category1: {
+                      type: 'string',
                     },
-                    "category2": {
-                      "type": "string"
+                    category2: {
+                      type: 'string',
                     },
-                    "name": {
-                      "type": "string"
+                    name: {
+                      type: 'string',
                     },
-                    "streetName": {
-                      "type": "string"
+                    streetName: {
+                      type: 'string',
                     },
-                    "streetNumber": {
-                      "type": "string"
+                    streetNumber: {
+                      type: 'string',
                     },
-                    "city": {
-                      "type": "string"
+                    city: {
+                      type: 'string',
                     },
-                    "province": {
-                      "type": "string"
+                    province: {
+                      type: 'string',
                     },
-                    "CAPCode": {
-                      "type": "string"
+                    CAPCode: {
+                      type: 'string',
                     },
-                    "activity": {
-                      "type": "string"
+                    activity: {
+                      type: 'string',
                     },
-                    "description": {
-                      "type": "string"
+                    description: {
+                      type: 'string',
                     },
-                    "website": {
-                      "type": "string",
-                      "format": "uri"
+                    website: {
+                      type: 'string',
+                      format: 'uri',
                     },
-                    "imageLink": {
-                      "type": "string",
-                      "format": "uri"
+                    imageLink: {
+                      type: 'string',
+                      format: 'uri',
                     },
-                    "lat": {
-                      "type": "string"
+                    lat: {
+                      type: 'string',
                     },
-                    "lon": {
-                      "type": "string"
+                    lon: {
+                      type: 'string',
                     },
-                    "searchable": {
-                      "type": "boolean"
-                    }
-                  }
-                }
-              }
-            }
+                    searchable: {
+                      type: 'boolean',
+                    },
+                  },
+                },
+              },
+            },
           },
-          "444": {
-            "description": "Luogo non esistente"
-          }
-        }
-      }
-    },
-    "/categories": {
-      "get": {
-        "tags": [
-          "End User"
-        ],
-        "description": "Ottieni la lista di categorie",
-        "responses": {
-          "200": {
-            "description": "Lista di categorie",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "categories": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/search/p": {
-      "get": {
-        "tags": [
-          "End User",
-          "Search"
-        ],
-        "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "description": "The text for full text search on all fields",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
+          '444': {
+            description: 'Luogo non esistente',
           },
-          {
-            "name": "near",
-            "in": "query",
-            "description": "Latitude and longitude for the search",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "pattern": "\\d{1,2}(.\\d*)\\,\\d{1,2}(.\\d*)"
-            }
-          },
-          {
-            "name": "cat",
-            "in": "query",
-            "description": "Category filter for the search",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "summary": "Search places",
-        "description": "At least one of the 'q' or the 'near' parameters is required",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "places": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "placeId": {
-                            "type": "string"
-                          },
-                          "istatCode": {
-                            "type": "string"
-                          },
-                          "category1": {
-                            "type": "string"
-                          },
-                          "category2": {
-                            "type": "string"
-                          },
-                          "name": {
-                            "type": "string"
-                          },
-                          "streetName": {
-                            "type": "string"
-                          },
-                          "streetNumber": {
-                            "type": "string"
-                          },
-                          "city": {
-                            "type": "string"
-                          },
-                          "province": {
-                            "type": "string"
-                          },
-                          "CAPCode": {
-                            "type": "string"
-                          },
-                          "activity": {
-                            "type": "string"
-                          },
-                          "description": {
-                            "type": "string"
-                          },
-                          "website": {
-                            "type": "string",
-                            "format": "uri"
-                          },
-                          "imageLink": {
-                            "type": "string",
-                            "format": "uri"
-                          },
-                          "lat": {
-                            "type": "string"
-                          },
-                          "lon": {
-                            "type": "string"
-                          },
-                          "searchable": {
-                            "type": "boolean"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "PlaceList": {
-        "type": "object",
-        "properties": {
-          "places": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "placeId": {
-                  "type": "string"
-                },
-                "istatCode": {
-                  "type": "string"
-                },
-                "category1": {
-                  "type": "string"
-                },
-                "category2": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "streetName": {
-                  "type": "string"
-                },
-                "streetNumber": {
-                  "type": "string"
-                },
-                "city": {
-                  "type": "string"
-                },
-                "province": {
-                  "type": "string"
-                },
-                "CAPCode": {
-                  "type": "string"
-                },
-                "activity": {
-                  "type": "string"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "website": {
-                  "type": "string",
-                  "format": "uri"
-                },
-                "imageLink": {
-                  "type": "string",
-                  "format": "uri"
-                },
-                "lat": {
-                  "type": "string"
-                },
-                "lon": {
-                  "type": "string"
-                },
-                "searchable": {
-                  "type": "boolean"
-                }
-              }
-            }
-          }
-        }
+        },
       },
-      "PlaceInfo": {
-        "type": "object",
-        "properties": {
-          "placeId": {
-            "type": "string"
+    },
+    '/categories': {
+      get: {
+        tags: ['End User'],
+        description: 'Ottieni la lista di categorie',
+        responses: {
+          '200': {
+            description: 'Lista di categorie',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    categories: {
+                      type: 'array',
+                      items: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
-          "istatCode": {
-            "type": "string"
+        },
+      },
+    },
+    '/search/p': {
+      get: {
+        tags: ['End User', 'Search'],
+        parameters: [
+          {
+            name: 'q',
+            in: 'query',
+            description: 'The text for full text search on all fields',
+            required: false,
+            schema: {
+              type: 'string',
+            },
           },
-          "category1": {
-            "type": "string"
+          {
+            name: 'near',
+            in: 'query',
+            description: 'Latitude and longitude for the search',
+            required: false,
+            schema: {
+              type: 'string',
+              pattern: '\\d{1,2}(.\\d*)\\,\\d{1,2}(.\\d*)',
+            },
           },
-          "category2": {
-            "type": "string"
+          {
+            name: 'cat',
+            in: 'query',
+            description: 'Category filter for the search',
+            required: false,
+            schema: {
+              type: 'string',
+            },
           },
-          "name": {
-            "type": "string"
+        ],
+        summary: 'Search places',
+        description: "At least one of the 'q' or the 'near' parameters is required",
+        responses: {
+          '200': {
+            description: 'OK',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    places: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          placeId: {
+                            type: 'string',
+                          },
+                          istatCode: {
+                            type: 'string',
+                          },
+                          category1: {
+                            type: 'string',
+                          },
+                          category2: {
+                            type: 'string',
+                          },
+                          name: {
+                            type: 'string',
+                          },
+                          streetName: {
+                            type: 'string',
+                          },
+                          streetNumber: {
+                            type: 'string',
+                          },
+                          city: {
+                            type: 'string',
+                          },
+                          province: {
+                            type: 'string',
+                          },
+                          CAPCode: {
+                            type: 'string',
+                          },
+                          activity: {
+                            type: 'string',
+                          },
+                          description: {
+                            type: 'string',
+                          },
+                          website: {
+                            type: 'string',
+                            format: 'uri',
+                          },
+                          imageLink: {
+                            type: 'string',
+                            format: 'uri',
+                          },
+                          lat: {
+                            type: 'string',
+                          },
+                          lon: {
+                            type: 'string',
+                          },
+                          searchable: {
+                            type: 'boolean',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
-          "streetName": {
-            "type": "string"
-          },
-          "streetNumber": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "province": {
-            "type": "string"
-          },
-          "CAPCode": {
-            "type": "string"
-          },
-          "activity": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "website": {
-            "type": "string",
-            "format": "uri"
-          },
-          "imageLink": {
-            "type": "string",
-            "format": "uri"
-          },
-          "lat": {
-            "type": "string"
-          },
-          "lon": {
-            "type": "string"
-          },
-          "searchable": {
-            "type": "boolean"
-          }
-        }
-      }
-    }
+        },
+      },
+    },
   },
-  "tags": [
+  components: {
+    schemas: {
+      PlaceList: {
+        type: 'object',
+        properties: {
+          places: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                placeId: {
+                  type: 'string',
+                },
+                istatCode: {
+                  type: 'string',
+                },
+                category1: {
+                  type: 'string',
+                },
+                category2: {
+                  type: 'string',
+                },
+                name: {
+                  type: 'string',
+                },
+                streetName: {
+                  type: 'string',
+                },
+                streetNumber: {
+                  type: 'string',
+                },
+                city: {
+                  type: 'string',
+                },
+                province: {
+                  type: 'string',
+                },
+                CAPCode: {
+                  type: 'string',
+                },
+                activity: {
+                  type: 'string',
+                },
+                description: {
+                  type: 'string',
+                },
+                website: {
+                  type: 'string',
+                  format: 'uri',
+                },
+                imageLink: {
+                  type: 'string',
+                  format: 'uri',
+                },
+                lat: {
+                  type: 'string',
+                },
+                lon: {
+                  type: 'string',
+                },
+                searchable: {
+                  type: 'boolean',
+                },
+              },
+            },
+          },
+        },
+      },
+      PlaceInfo: {
+        type: 'object',
+        properties: {
+          placeId: {
+            type: 'string',
+          },
+          istatCode: {
+            type: 'string',
+          },
+          category1: {
+            type: 'string',
+          },
+          category2: {
+            type: 'string',
+          },
+          name: {
+            type: 'string',
+          },
+          streetName: {
+            type: 'string',
+          },
+          streetNumber: {
+            type: 'string',
+          },
+          city: {
+            type: 'string',
+          },
+          province: {
+            type: 'string',
+          },
+          CAPCode: {
+            type: 'string',
+          },
+          activity: {
+            type: 'string',
+          },
+          description: {
+            type: 'string',
+          },
+          website: {
+            type: 'string',
+            format: 'uri',
+          },
+          imageLink: {
+            type: 'string',
+            format: 'uri',
+          },
+          lat: {
+            type: 'string',
+          },
+          lon: {
+            type: 'string',
+          },
+          searchable: {
+            type: 'boolean',
+          },
+        },
+      },
+    },
+  },
+  tags: [
     {
-      "name": "End User",
-      "description": "Chiamate utilizzate dall'end user, non sono autenticate."
+      name: 'End User',
+      description: "Chiamate utilizzate dall'end user, non sono autenticate.",
     },
     {
-      "name": "Search",
-      "description": "Chiamate per cercare i luoghi"
-    }
-  ]
-}
+      name: 'Search',
+      description: 'Chiamate per cercare i luoghi',
+    },
+  ],
+};

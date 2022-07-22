@@ -3,15 +3,20 @@ import os
 import boto3
 import csv
 import json
+import itertools
 
 from typing import List, Tuple, Set
 import traceback
 
-CSV_DATA_URLS = json.loads(os.environ.get("CSV_DATA_URLS")) 
+CSV_DATA_URLS = json.loads(os.environ.get("CSV_DATA_URLS"))
 
 dynamodb = boto3.resource("dynamodb")
 table_name = os.environ.get("DATA_TABLE")
 table = dynamodb.Table(table_name)
+
+
+def lower_first(iterator):
+    return itertools.chain([next(iterator).lower()], iterator)
 
 
 def lambda_handler(event, context):
@@ -21,7 +26,7 @@ def lambda_handler(event, context):
 
     with table.batch_writer() as batch:
         for CSV_DATA_URL in CSV_DATA_URLS:
-            try:    
+            try:
                 with open(CSV_DATA_URL, encoding='latin-1') as csvfile:
                     ids_from_csv_temp, categories_temp,failed_records = put_places(csvfile, batch)
                     categories.update((categories_temp))
@@ -38,7 +43,6 @@ def lambda_handler(event, context):
                 "gsi1pk": "category",
             }
         )
-
 
     if failed_records:
         raise Exception
@@ -77,10 +81,11 @@ def update_place(pk, searchable):
 
 
 def get_or_error(item, key):
+    key = key.lower()
     try:
         return item[key]
     except KeyError:
-        print(f'{item["ID"]}: Missing key: {key}')
+        print(f'{item["id"]}: Missing key: {key}')
         print(json.dumps(item))
     return ''
 
@@ -94,11 +99,11 @@ def put_places(csvfile, batch) -> Tuple[Set[str], Set[str], List[Exception]]:
     ids = set()
     categories = set()
     errors = []
-    reader = csv.DictReader(csvfile, delimiter=";")
+    reader = csv.DictReader(lower_first(csvfile), delimiter=";")
     for row in reader:
-        place_id = row["ID"]
-        if row["Categoria1"]:
-            categories.add(row["Categoria1"].strip().lower())
+        place_id = row["id"]
+        if row["categoria1"]:
+            categories.add(row["categoria1"].strip().lower())
         try:
             batch.put_item(
                 Item={
@@ -107,7 +112,9 @@ def put_places(csvfile, batch) -> Tuple[Set[str], Set[str], List[Exception]]:
                     "data": {
                         "placeId": place_id,
                         "istatCode": get_or_error(row,"COD_ISTAT_Comune"),
-                        "category1": get_or_error(row,"Categoria1"),
+                        "category1": get_or_error(row,"Categoria1")
+                        .strip()
+                        .lower(),
                         "category2": get_or_error(row,"Categoria2"),
                         "name": get_or_error(row,"PuntoInteresse_Nome"),
                         "website": get_or_error(row,"PuntoInteresse_SitoWeb"),

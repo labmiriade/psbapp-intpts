@@ -12,7 +12,7 @@ export class CategoryEffects {
       ofType(searchCategory),
       mergeMap(() =>
         this.main.getCategories().pipe(
-          map((results) => searchCategorySuccess({ results: results as any })),
+          map((results) => searchCategorySuccess({ results })),
           catchError((e) => {
             this.toast.show(
               'Errore in ricerca',

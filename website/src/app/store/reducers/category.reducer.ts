@@ -1,10 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import { searchCategory, searchCategoryFailed, searchCategorySuccess } from '../actions/category.action';
-
 export interface State {
   loading: boolean;
   error: any;
-  results: any | null;
+  results: string[] | null;
 }
 
 const initialState: State = {

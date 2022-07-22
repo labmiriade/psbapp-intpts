@@ -9,4 +9,11 @@ export interface Environment {
   awsIdentityPoolId: string;
   /** AWS: nome della mappa come indicato nella console  */
   awsMapName: string;
+  /** AWS: abilita il servizio Pinpoint */
+  awsPinpoint?: EnvironmentPinpointProps;
+}
+interface EnvironmentPinpointProps {
+  region: string;
+  identityPoolId: string;
+  appId: string;
 }

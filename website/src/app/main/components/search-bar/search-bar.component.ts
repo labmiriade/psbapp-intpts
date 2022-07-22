@@ -18,6 +18,7 @@ import { map } from 'rxjs/operators';
 import { searchCategory } from 'src/app/store/actions/category.action';
 import { AppState } from 'src/app/store/reducers';
 import { searchLoading, searchResults } from 'src/app/store/selectors/category.selector';
+import { ToastService, ToastType } from 'src/app/core/services/toast.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -27,9 +28,8 @@ import { searchLoading, searchResults } from 'src/app/store/selectors/category.s
 export class SearchBarComponent implements OnChanges, OnInit, OnDestroy {
   @Input() q = '';
   @Output() searchClick = new EventEmitter<{ q: string; geo: boolean; cat: string }>();
-
   @ViewChild('srollableDiv') srollableDiv!: ElementRef<any>;
-  allPlace: boolean = true;
+
   form: FormGroup;
   private sub: Subscription;
 
@@ -40,7 +40,12 @@ export class SearchBarComponent implements OnChanges, OnInit, OnDestroy {
   categories$: Observable<string[]>;
   categoriesList: Observable<any[]>;
 
-  constructor(private fb: FormBuilder, private store: Store<AppState>, private activatedRoute: ActivatedRoute) {
+  constructor(
+    private fb: FormBuilder,
+    private store: Store<AppState>,
+    private activatedRoute: ActivatedRoute,
+    private toast: ToastService,
+  ) {
     this.sub = new Subscription();
     this.form = this.fb.group({
       q: this.q ?? '',
@@ -48,7 +53,7 @@ export class SearchBarComponent implements OnChanges, OnInit, OnDestroy {
 
     this.loading$ = this.store.select(searchLoading());
     this.categories$ = this.store.select(searchResults());
-    this.categoriesList = this.getcategories();
+    this.categoriesList = this.getCategories();
   }
 
   ngOnInit(): void {
@@ -58,15 +63,7 @@ export class SearchBarComponent implements OnChanges, OnInit, OnDestroy {
       }),
     );
 
-    this.sub.add(this.store.dispatch(searchCategory())).add(
-      this.form.valueChanges.subscribe((dati) => {
-        if (dati.q !== '') {
-          this.allPlace = false;
-        } else {
-          this.allPlace = true;
-        }
-      }),
-    );
+    this.sub.add(this.store.dispatch(searchCategory()));
   }
 
   ngOnDestroy(): void {
@@ -78,62 +75,60 @@ export class SearchBarComponent implements OnChanges, OnInit, OnDestroy {
     this.srollableDiv.nativeElement.scrollLeft += event.deltaY + event.deltaX;
   }
 
-  setCategory(event: any) {
-    this.categoriesList = this.categoriesList.pipe(
-      map((categories) => {
-        let categoriesOut: any[] = [];
-        categories.map((cat) => {
-          if (event.category !== cat.category) {
-            cat.selected = false;
-          } else if (event.category === cat.category) {
-            cat.selected = !event.selected;
-          }
-
-          categoriesOut.push(cat);
-        });
-
-        return categoriesOut;
-      }),
-    );
+  setCategory(event: CategoryBubble): void {
     if (this.selectedCategory === event.category) {
       this.selectedCategory = '';
     } else {
       this.selectedCategory = event.category;
     }
-
+    this.categoriesList = this.getCategories();
     this.search(event, false, this.selectedCategory);
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.q && changes.q.previousValue !== changes.q.currentValue && this.form) {
       this.form.patchValue({ q: this.q ?? '' });
     }
   }
 
-  search(e: Event, geo = false, cat: string = this.selectedCategory): void {
+  search(e: Event | CategoryBubble, geo = false, cat: string = this.selectedCategory): void {
     if (e instanceof Event) {
       e.preventDefault();
     }
-    const q: string = (this.form.value.q || '').trim();
-    this.searchClick.emit({ q, geo, cat });
+
+    if (this.form.value.q.length < 3 && cat === '') {
+      this.toast.show(
+        'Ricerca non valida',
+        'Inserire una parola di almeno 3 caratteri e premere il pulsante Ricerca o GeoRicerca',
+        ToastType.Danger,
+      );
+    } else {
+      const q: string = this.form.value.q.trim();
+      this.searchClick.emit({ q, geo, cat });
+    }
   }
 
   isGeoDisabled(): boolean {
     return !navigator.geolocation;
   }
 
-  getcategories(): Observable<any[]> {
+  getCategories(): Observable<CategoryBubble[]> {
     return this.categories$.pipe(
       map((categories) => {
-        let categoriesOut: any[] = [];
-        categories.map((cat) => {
-          let category = { category: cat, selected: false };
-          if (this.selectedCategory === cat) {
-            category.selected = true;
-          }
-          categoriesOut.push(category);
+        return categories.map((cat) => {
+          const selected = this.selectedCategory === cat;
+          return {
+            category: cat,
+            selected: selected,
+          };
         });
-        return categoriesOut;
       }),
     );
   }
+}
+
+/* private interface representing a category bubble */
+interface CategoryBubble {
+  category: string;
+  selected: boolean;
 }

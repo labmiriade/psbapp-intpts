@@ -1,7 +1,17 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
 import { InfrastructureStack, InfrastructureStackProps } from '../lib/infrastructure-stack';
+
+const DATA_URLS = [
+  'https://dati.veneto.it/SpodCkanApi/api/1/rest/dataset/comune_di_schio_punti_di_interesse_turistico.csv',
+  'https://dati.veneto.it/SpodCkanApi/api/1/rest/dataset/dataset_punti_di_interesse_turistico.csv', //valdagno
+  'https://dati.veneto.it/SpodCkanApi/api/1/rest/dataset/comune_di_monte_di_malo_punti_di_interesse_turistico.csv',
+  'https://dati.veneto.it/SpodCkanApi/api/1/rest/dataset/comune_di_santorso_punti_di_interesse_turistico.csv',
+  'https://dati.veneto.it/SpodCkanApi/api/1/rest/dataset/punti_di_interesse_turistico.csv', //s. vito di leguzzano
+  'https://dati.veneto.it/SpodCkanApi/api/1/rest/dataset/comune_di_villaverla_punti_di_interesse_turistico.csv',
+  'https://dati.veneto.it/SpodCkanApi/api/1/rest/dataset/comune_di_zugliano_punti_di_interesse_turistico.csv',
+];
 
 const env: cdk.Environment = {
   account: '<ACCOUNT_ID>',
@@ -14,7 +24,7 @@ cdk.Tags.of(app).add('project', 'PSBAPP');
 /////// STACK DI SVILUPPO
 
 // default props for all dev env: customizable afterwards
-function makeDefaultDevProps(ownerName: string): InfrastructureStackProps {
+function makeDefaultDevProps(ownerName: string, ownerEmail: string): InfrastructureStackProps {
   return {
     env,
     endUserWebApp: {
@@ -27,7 +37,7 @@ function makeDefaultDevProps(ownerName: string): InfrastructureStackProps {
     },
     description: `Development Stack for Pasubio App - IntPts owned by ${ownerName}`,
     destroyOnRemoval: true,
-    csvDataUrls: JSON.stringify(['TO REPLACE WITH CSV URL']),
+    csvDataUrls: JSON.stringify(DATA_URLS),
     locationMapArn: '<LOCATION_MAP_ARN>',
     searchProps: {
       indexPrefix: ownerName,
@@ -36,6 +46,7 @@ function makeDefaultDevProps(ownerName: string): InfrastructureStackProps {
         domainEndpoint: '<ES_ENDPOINT>',
       },
     },
+    alarmEmail: ownerEmail,
   };
 }
 

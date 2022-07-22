@@ -36,9 +36,7 @@ export interface paths {
         /** Lista di categorie */
         200: {
           content: {
-            'application/json': {
-              categories?: string[];
-            };
+            'application/json': components['schemas']['CategoriesList'];
           };
         };
       };
@@ -71,6 +69,9 @@ export interface paths {
 
 export interface components {
   schemas: {
+    CategoriesList: {
+      categories: string[];
+    };
     PlaceList: {
       places?: components['schemas']['PlaceInfo'][];
     };

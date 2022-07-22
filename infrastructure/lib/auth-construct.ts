@@ -1,13 +1,15 @@
-import * as cdk from '@aws-cdk/core';
-import * as cognito from '@aws-cdk/aws-cognito';
-import * as iam from '@aws-cdk/aws-iam';
+import * as cdk from 'aws-cdk-lib';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import { Construct } from 'constructs';
 
 export interface AuthConstructProps {
   locationMapArn: string;
+  pinpointArn: string;
 }
 
-export class AuthConstruct extends cdk.Construct {
-  constructor(scope: cdk.Construct, id: string, props: AuthConstructProps) {
+export class AuthConstruct extends Construct {
+  constructor(scope: Construct, id: string, props: AuthConstructProps) {
     super(scope, id);
 
     const identityPool = new cognito.CfnIdentityPool(this, 'IdentityPool', {
@@ -19,6 +21,15 @@ export class AuthConstruct extends cdk.Construct {
         new iam.PolicyStatement({
           resources: [props.locationMapArn],
           actions: ['geo:GetMapGlyphs', 'geo:GetMapSprites', 'geo:GetMapStyleDescriptor', 'geo:GetMapTile'],
+        }),
+      ],
+    });
+
+    const pinpointPolicy = new iam.PolicyDocument({
+      statements: [
+        new iam.PolicyStatement({
+          resources: [props.pinpointArn],
+          actions: ['mobiletargeting:PutEvents', 'mobiletargeting:UpdateEndpoint', 'mobileanalytics:PutEvents'],
         }),
       ],
     });
@@ -38,6 +49,7 @@ export class AuthConstruct extends cdk.Construct {
       ),
       inlinePolicies: {
         allowMapAccess: mapAccessPolicy,
+        allowPinPointAccess: pinpointPolicy,
       },
     });
 
@@ -56,6 +68,7 @@ export class AuthConstruct extends cdk.Construct {
       ),
       inlinePolicies: {
         allowMapAccess: mapAccessPolicy,
+        allowPinPointAccess: pinpointPolicy,
       },
     });
 
@@ -71,6 +84,7 @@ export class AuthConstruct extends cdk.Construct {
       value: identityPool.ref,
       description: 'Identity Pool Id',
     });
+
     this.identityPool = identityPool;
   }
   identityPool: cognito.CfnIdentityPool;

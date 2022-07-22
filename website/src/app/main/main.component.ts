@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { parseMessage } from '@angular/localize/src/utils';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { AppState } from '../store/reducers';
 import { searchKeywords } from '../store/selectors/main.selector';
 

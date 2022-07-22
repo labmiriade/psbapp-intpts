@@ -8,6 +8,10 @@ if (environment.production) {
   enableProdMode();
 }
 
+if (environment.awsPinpoint) {
+  import('./pinpoint').then((pinpoint) => pinpoint.default(environment));
+}
+
 platformBrowserDynamic()
   .bootstrapModule(AppModule)
   .catch((err) => console.error(err));

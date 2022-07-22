@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "IntPts NodeJS Search API",
   "main": "index.js",
-  "repository": "https://github.com/labmiriade/psbapp-intpts",
+  "repository": "https://bitbucket.org/miriadesrl/psbapp-intpts",
   "author": "Miriade",
   "dependencies": {
-    "@elastic/elasticsearch": "^7.12.0",
+    "@elastic/elasticsearch": "7.13.0",
     "aws-elasticsearch-js": "^1.0.3",
     "source-map-support": "^0.5.19"
   },

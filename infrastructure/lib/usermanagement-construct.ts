@@ -1,5 +1,6 @@
-import * as cdk from '@aws-cdk/core';
-import * as cognito from '@aws-cdk/aws-cognito';
+import * as cdk from 'aws-cdk-lib';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
+import { Construct } from 'constructs';
 
 /*
  * This Props is currently not used but kept because could result handy in next steps
@@ -28,15 +29,10 @@ export interface UserManagementConstructProps {
  * Construct che si occupa di creare tutte le risorse necessarie all'user management
  * (Cognito User Pool, client, eventuali lambda, …)
  */
-export class UserManagementConstruct extends cdk.Construct {
+export class UserManagementConstruct extends Construct {
   userPool: cognito.UserPool;
-  constructor(scope: cdk.Construct, id: string, props: UserManagementConstructProps) {
+  constructor(scope: Construct, id: string, props: UserManagementConstructProps) {
     super(scope, id);
-
-    // Setup Email
-    const emailSettings: cognito.EmailSettings = {
-      from: props.emailFrom,
-    };
 
     // Setup User Verification Texts
     const userVerification: cognito.UserVerificationConfig = {
@@ -67,7 +63,7 @@ export class UserManagementConstruct extends cdk.Construct {
         email: true,
         phone: false,
       },
-      emailSettings,
+      email: cognito.UserPoolEmail.withCognito(props.emailFrom),
       // disable self signup
       selfSignUpEnabled: false,
       // user can login with email, username or preferred_username

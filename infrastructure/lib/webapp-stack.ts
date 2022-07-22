@@ -1,10 +1,11 @@
-import * as cdk from '@aws-cdk/core';
-import * as cf from '@aws-cdk/aws-cloudfront';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as apigateway from '@aws-cdk/aws-apigateway';
-import * as route53 from '@aws-cdk/aws-route53';
-import * as route53tg from '@aws-cdk/aws-route53-targets';
-import { BucketDeployment, Source } from '@aws-cdk/aws-s3-deployment';
+import * as cdk from 'aws-cdk-lib';
+import * as cf from 'aws-cdk-lib/aws-cloudfront';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as route53 from 'aws-cdk-lib/aws-route53';
+import * as route53tg from 'aws-cdk-lib/aws-route53-targets';
+import { Construct } from 'constructs';
+import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 
 export interface BaseWebAppConstructProps {
   /**
@@ -55,8 +56,8 @@ export interface WebAppConstructProps extends BaseWebAppConstructProps {
   region: string;
 }
 
-export class WebAppConstruct extends cdk.Construct {
-  constructor(scope: cdk.Construct, id: string, props: WebAppConstructProps) {
+export class WebAppConstruct extends Construct {
+  constructor(scope: Construct, id: string, props: WebAppConstructProps) {
     super(scope, id);
 
     // create the bucket
@@ -108,6 +109,7 @@ export class WebAppConstruct extends cdk.Construct {
           s3OriginSource: {
             s3BucketSource: bucket,
             originAccessIdentity: oai,
+            originPath: '/v1',
           },
           behaviors: [
             {
@@ -117,7 +119,6 @@ export class WebAppConstruct extends cdk.Construct {
               minTtl: minTtl,
             },
           ],
-          originPath: '/v1',
         },
         {
           customOriginSource: {
@@ -170,5 +171,6 @@ export class WebAppConstruct extends cdk.Construct {
       description: 'WebApp CloudFront URL',
     });
   }
+
   frontendBucket: s3.IBucket;
 }

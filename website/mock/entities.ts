@@ -33,3 +33,25 @@ export function PlaceInfo(placeId?: string): components['schemas']['PlaceInfo'] 
     istatCode: `${faker.datatype.string(1)}${faker.datatype.number(999)}`,
   };
 }
+
+export function CategoriesList(): components['schemas']['CategoriesList'] {
+  return {
+    categories: [
+      'Esposizioni Permanenti',
+      'Percorsi e proposte didattiche',
+      'Territorio',
+      'Esposizioni Permanenti',
+      'Percorsi e proposte didattiche',
+      'Territorio',
+      'Esposizioni Permanenti',
+      'Percorsi e proposte didattiche',
+      'Territorio',
+      'Esposizioni Permanenti',
+      'Percorsi e proposte didattiche',
+      'Territorio',
+      'Esposizioni Permanenti',
+      'Percorsi e proposte didattiche',
+      'Territorio',
+    ],
+  };
+}
